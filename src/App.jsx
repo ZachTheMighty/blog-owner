@@ -1,13 +1,53 @@
+import { useState } from "react";
 import Input from "./components/input.jsx";
 import { Link } from "react-router";
-import Form from "./components/form.jsx";
 
 export default function App() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("http://localhost:8080/tokens", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok)
+      return setErrors({
+        errors: data.error,
+        path: data.path,
+        status: response.status,
+      });
+    setErrors(null);
+    console.log(data);
+  };
+
   return (
-    <div className="min-h-screen flex justify-center px-8 items-center bg-pink-600">
-      <Form header="Login" button="SIGN IN">
-        <Input type="email" />
-        <Input type="password" />
+    <div className="min-h-screen flex justify-center items-center bg-pink-600">
+      <form
+        onSubmit={(event) => handleSubmit(event)}
+        className="flex flex-col gap-4 px-8 py-16 rounded-md bg-white sm:p-16 w-full md:w-150 lg:w-200"
+      >
+        <h1 className="text-3xl text-center mb-8 text-gray-600">Login</h1>
+        <Input type="email" value={email} setValue={setEmail} errors={errors} />
+        <Input
+          type="password"
+          value={password}
+          setValue={setPassword}
+          errors={errors}
+        />
+
+        <button className="bg-pink-700 min-w-full px-4 py-2 text-white font-medium hover:bg-pink-600 active:bg-pink-700">
+          SIGN IN
+        </button>
         <div className="text-sm text-center mt-2">
           Don't have an account?{" "}
           <Link
@@ -17,7 +57,7 @@ export default function App() {
             Sign up
           </Link>
         </div>
-      </Form>
+      </form>
     </div>
   );
 }

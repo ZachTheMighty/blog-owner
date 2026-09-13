@@ -41,8 +41,7 @@ export default function Input({
         placeholder={`Enter ${text}`}
       />
       <ul className="list-disc">
-        {errors &&
-          errors.status === 422 &&
+        {errors?.status === 422 &&
           errors.errors.map((error, index) => {
             if (error.path === name)
               return (
@@ -51,6 +50,9 @@ export default function Input({
                 </li>
               );
           })}
+        {errors?.status === 401 && errors.path === name && (
+          <li className="text-red-500 font-bold text-xs">{errors.errors}</li>
+        )}
       </ul>
     </div>
   );
