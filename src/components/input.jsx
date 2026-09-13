@@ -1,3 +1,7 @@
+import { Eye } from "lucide-react";
+import { EyeOff } from "lucide-react";
+import { useState } from "react";
+
 export default function Input({
   type,
   text = type,
@@ -6,11 +10,29 @@ export default function Input({
   setValue,
   errors,
 }) {
+  const [showPassword, setShowPassword] = useState(false);
   return (
-    <div className="flex flex-col justify-center">
+    <div className="flex flex-col justify-center relative">
       <label htmlFor={name}>{text[0].toUpperCase() + text.slice(1)}:</label>
+      {type === "password" && !showPassword ? (
+        <Eye
+          onClick={() =>
+            setShowPassword((prevShowPassword) => !prevShowPassword)
+          }
+          className="absolute right-5 top-11 text-black/30 hover:text-black active:text-black/30"
+        />
+      ) : type === "password" ? (
+        <EyeOff
+          onClick={() =>
+            setShowPassword((prevShowPassword) => !prevShowPassword)
+          }
+          className="absolute right-5 top-11 text-black/30 hover:text-black active:text-black/30"
+        />
+      ) : (
+        ""
+      )}
       <input
-        type={type}
+        type={type === "password" && !showPassword ? "password" : "text"}
         name={name}
         id={name}
         value={value}
