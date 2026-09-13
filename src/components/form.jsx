@@ -23,7 +23,7 @@ export default function From({ header, button, children, fields }) {
     >
       <h1 className="text-3xl text-center mb-8 text-gray-600">{header}</h1>
       {inputs}
-      <button className="bg-cyan-700 min-w-full px-4 py-2 text-white font-medium hover:bg-cyan-600 active:bg-cyan-700">
+      <button className="bg-pink-700 min-w-full px-4 py-2 text-white font-medium hover:bg-pink-600 active:bg-pink-700">
         {button}
       </button>
       {header === "Login" && children.at(-1)}

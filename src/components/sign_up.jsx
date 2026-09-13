@@ -10,7 +10,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
-    <div className="min-h-screen flex justify-center px-8 items-center bg-cyan-600">
+    <div className="min-h-screen flex justify-center px-8 items-center bg-pink-600">
       <Form
         header="Sign Up"
         button="SIGN UP"

@@ -14,7 +14,7 @@ export default function Input({
         id={name}
         value={value}
         onChange={(event) => setValue(event.target.value)}
-        className="border-1 border-black/10 p-5 mb-3 hover:outline-1 outline-cyan-600 focus:outline-2 outline-cyan-600 sm:w-120"
+        className="border-1 border-black/10 p-5 mb-3 hover:outline-1 outline-pink-600 focus:outline-2 outline-pink-600 sm:w-120"
         placeholder={`Enter ${text}`}
       />
     </div>
