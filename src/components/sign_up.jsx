@@ -8,7 +8,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,16 +26,16 @@ export default function Signup() {
     });
 
     const data = await response.json();
-    console.log(data);
     if (!response.ok)
-      setErrors({ errors: data.error, status: response.status });
+      return setErrors({ errors: data.error, status: response.status });
+    setErrors(null);
   };
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-pink-600">
       <form
         onSubmit={(event) => handleSubmit(event)}
-        className="flex flex-col gap-4 px-8 py-16 rounded-md bg-white sm:p-16 w-full md:w-150 lg:w-200"
+        className="flex flex-col gap-4 px-8 py-16 rounded-md bg-white sm:p-16 w-full md:w-200"
       >
         <h1 className="text-3xl text-center mb-8 text-gray-600">Sign Up</h1>
         <Input
@@ -72,7 +72,7 @@ export default function Signup() {
         <button className="bg-pink-700 min-w-full px-4 py-2 text-white font-medium hover:bg-pink-600 active:bg-pink-700">
           SIGN UP
         </button>
-        {errors.status === 409 ? (
+        {errors?.status === 409 ? (
           <div>
             {errors.errors} Would you like to{" "}
             <Link
@@ -82,6 +82,16 @@ export default function Signup() {
               Sign in
             </Link>{" "}
             instead?
+          </div>
+        ) : !errors ? (
+          <div>
+            Successfully created account.{" "}
+            <Link
+              to="/"
+              className="text-pink-700 hover:text-pink-600 active:text-pink-700"
+            >
+              Sign in.
+            </Link>
           </div>
         ) : (
           <div className="text-center">
