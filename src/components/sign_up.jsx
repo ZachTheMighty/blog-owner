@@ -1,6 +1,6 @@
 import Input from "./input.jsx";
 import { useState } from "react";
-import { Link } from "react-router";
+import Link from "./link.jsx";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -8,7 +8,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState(null);
+  const [errors, setErrors] = useState("s");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -74,34 +74,16 @@ export default function Signup() {
         </button>
         {errors?.status === 409 ? (
           <div>
-            {errors.errors} Would you like to{" "}
-            <Link
-              to="/"
-              className="text-pink-700 hover:text-pink-600 active:text-pink-700"
-            >
-              Sign in
-            </Link>{" "}
+            {errors.errors} Would you like to <Link to="/" text="Sign in" />{" "}
             instead?
           </div>
         ) : !errors ? (
           <div>
-            Successfully created account.{" "}
-            <Link
-              to="/"
-              className="text-pink-700 hover:text-pink-600 active:text-pink-700"
-            >
-              Sign in.
-            </Link>
+            Successfully created account. <Link to="/" text="Sign in" />
           </div>
         ) : (
           <div className="text-center">
-            Already have an account?{" "}
-            <Link
-              to="/"
-              className="text-pink-700 hover:text-pink-600 active:text-pink-700"
-            >
-              Sign in.
-            </Link>
+            Already have an account? <Link to="/" text="Sign in" />
           </div>
         )}
       </form>

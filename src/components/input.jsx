@@ -40,20 +40,22 @@ export default function Input({
         className="outline-1 outline-black/10 p-5 mb-3 hover:outline-1 hover:outline-pink-600 focus:outline-2 focus:outline-pink-600"
         placeholder={`Enter ${text}`}
       />
-      <ul className="list-disc">
-        {errors?.status === 422 &&
-          errors.errors.map((error, index) => {
-            if (error.path === name)
-              return (
-                <li key={index} className="text-red-500 font-bold text-xs">
-                  {error.msg}
-                </li>
-              );
-          })}
-        {errors?.status === 401 && errors.path === name && (
-          <li className="text-red-500 font-bold text-xs">{errors.errors}</li>
-        )}
-      </ul>
+      {errors !== "s" && (
+        <ul className="list-disc">
+          {errors?.status === 422 &&
+            errors.errors.map((error, index) => {
+              if (error.path === name)
+                return (
+                  <li key={index} className="text-red-500 font-bold text-xs">
+                    {error.msg}
+                  </li>
+                );
+            })}
+          {errors?.status === 401 && errors.path === name && (
+            <li className="text-red-500 font-bold text-xs">{errors.errors}</li>
+          )}
+        </ul>
+      )}
     </div>
   );
 }
