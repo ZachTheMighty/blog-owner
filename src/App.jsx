@@ -4,7 +4,7 @@ import Form from "./components/form.jsx";
 
 export default function App() {
   return (
-    <div className="min-h-screen flex justify-center px-8 items-center bg-cyan-600">
+    <div className="min-h-screen flex justify-center px-8 items-center bg-pink-600">
       <Form header="Login" button="SIGN IN">
         <Input type="email" />
         <Input type="password" />
@@ -12,7 +12,7 @@ export default function App() {
           Don't have an account?{" "}
           <Link
             to="/sign-up"
-            className="text-cyan-700 hover:text-cyan-600 active:text-cyan-700"
+            className="text-pink-700 hover:text-pink-600 active:text-pink-700"
           >
             Sign up
           </Link>

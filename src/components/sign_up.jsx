@@ -1,6 +1,6 @@
 import Input from "./input.jsx";
-import Form from "./form.jsx";
 import { useState } from "react";
+import { Link } from "react-router";
 
 export default function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -8,26 +8,43 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch("http://localhost:8080/users", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+      }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok)
+      setErrors({ errors: data.error, status: response.status });
+  };
 
   return (
-    <div className="min-h-screen flex justify-center px-8 items-center bg-pink-600">
-      <Form
-        header="Sign Up"
-        button="SIGN UP"
-        fields={{
-          firstName,
-          lastName,
-          email,
-          password,
-          confirmPassword,
-        }}
+    <div className="min-h-screen flex justify-center items-center bg-pink-600">
+      <form
+        onSubmit={(event) => handleSubmit(event)}
+        className="flex flex-col gap-4 px-8 py-16 rounded-md bg-white sm:p-16 w-full md:w-150 lg:w-200"
       >
+        <h1 className="text-3xl text-center mb-8 text-gray-600">Sign Up</h1>
         <Input
           type="text"
           text="First Name"
           name="firstName"
           value={firstName}
           setValue={setFirstName}
+          errors={errors}
         />
         <Input
           type="text"
@@ -35,17 +52,49 @@ export default function Signup() {
           name="lastName"
           value={lastName}
           setValue={setLastName}
+          errors={errors}
         />
-        <Input type="email" value={email} setValue={setEmail} />
-        <Input type="password" value={password} setValue={setPassword} />
+        <Input type="email" value={email} setValue={setEmail} errors={errors} />
+        <Input
+          type="password"
+          value={password}
+          setValue={setPassword}
+          errors={errors}
+        />
         <Input
           type="password"
           text="Confirm Password"
           name="confirmPassword"
           value={confirmPassword}
           setValue={setConfirmPassword}
+          errors={errors}
         />
-      </Form>
+        <button className="bg-pink-700 min-w-full px-4 py-2 text-white font-medium hover:bg-pink-600 active:bg-pink-700">
+          SIGN UP
+        </button>
+        {errors.status === 409 ? (
+          <div>
+            {errors.errors} Would you like to{" "}
+            <Link
+              to="/"
+              className="text-pink-700 hover:text-pink-600 active:text-pink-700"
+            >
+              Sign in
+            </Link>{" "}
+            instead?
+          </div>
+        ) : (
+          <div className="text-center">
+            Already have an account?{" "}
+            <Link
+              to="/"
+              className="text-pink-700 hover:text-pink-600 active:text-pink-700"
+            >
+              Sign in.
+            </Link>
+          </div>
+        )}
+      </form>
     </div>
   );
 }
