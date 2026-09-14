@@ -2,10 +2,12 @@ import { useOutletContext } from "react-router";
 import Link from "./link";
 import { useEffect } from "react";
 import { useState } from "react";
+import Navbar from "./navbar.jsx";
 
 export default function Dashboard() {
   const { setIsAuth, isAuth } = useOutletContext();
   const [loading, setLoading] = useState(true);
+  const [userName, setUserName] = useState("");
   useEffect(() => {
     fetch(
       "http://localhost:8080/tokens",
@@ -39,6 +41,8 @@ export default function Dashboard() {
       </div>
     );
   return (
-    <div className="flex flex-col items-center sm:block sm:p-10">dashboard</div>
+    <div className="flex flex-col items-center sm:block sm:p-10">
+      <Navbar userName={userName} />
+    </div>
   );
 }
