@@ -28,7 +28,6 @@ export default function Login() {
         status: response.status,
       });
     setErrors(null);
-    setIsAuth(true);
     navigate("/dashboard", { replace: true });
     localStorage.setItem("token", data.token);
   };
