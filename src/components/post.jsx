@@ -3,7 +3,9 @@ import { useState } from "react";
 
 export default function Post({ post }) {
   const [views, setViews] = useState(post.views);
-  const handleClick = async () => {
+  const [published, setPublished] = useState(post.published);
+
+  const handleViewPost = async () => {
     await fetch(`http://localhost:8080/posts/${post.id}/views`, {
       method: "post",
     })
@@ -11,10 +13,23 @@ export default function Post({ post }) {
       .then((data) => setViews(data.views))
       .catch((error) => console.log(error));
   };
+
+  const handlePublish = async (event) => {
+    event.stopPropagation();
+    await fetch(`http://localhost:8080/posts/${post.id}/published`, {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ published }),
+    })
+      .then((response) => response.json())
+      .then((data) => setPublished(data.published))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div
-      onClick={handleClick}
-      className="bg-white rounded-md px-2 py-4 hover:bg-gray-100 active:bg-gray-200 shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)] h-60 flex flex-col justify-between"
+      onClick={handleViewPost}
+      className="bg-white rounded-md p-4 hover:bg-gray-100 active:bg-gray-200 shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)] h-75 flex flex-col justify-between"
     >
       <div>
         <div className="text-2xl font-bold sm:text-3xl mb-2 line-clamp-2">
@@ -22,17 +37,33 @@ export default function Post({ post }) {
         </div>
         <div className="line-clamp-3">{post.body}</div>
       </div>
-      <div className="mt-8 flex justify-between">
-        <div>{post.createdAt.split("T")[0]}</div>
-        <div className="flex gap-4 text-gray-400">
-          <div className="flex gap-2">
-            <div>{post.comments.length}</div>
-            <MessageCircle />
+      <div className="flex flex-col gap-4">
+        <div className="flex justify-between">
+          <div>{post.createdAt.split("T")[0]}</div>
+          <div className="flex gap-4 text-gray-400">
+            <div className="flex gap-2">
+              <div>{post.comments.length}</div>
+              <MessageCircle />
+            </div>
+            <div className="flex gap-2">
+              <div>{views}</div>
+              <Eye />
+            </div>
           </div>
-          <div className="flex gap-2">
-            <div>{views}</div>
-            <Eye />
+        </div>
+        <div className="flex justify-between font-bold border-t border-black/10 pt-4">
+          <div className="flex gap-1 items-center">
+            Status:{" "}
+            <div className={`${published ? "text-green-500" : "text-red-500"}`}>
+              {published ? "Published" : "Unpublished"}
+            </div>
           </div>
+          <button
+            onClick={(event) => handlePublish(event)}
+            className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 active:bg-pink-500"
+          >
+            {published ? "Unpublish" : "Publish"}
+          </button>
         </div>
       </div>
     </div>
