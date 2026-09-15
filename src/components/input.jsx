@@ -31,17 +31,28 @@ export default function Input({
       ) : (
         ""
       )}
-      <input
-        type={type === "password" && !showPassword ? "password" : "text"}
-        name={name}
-        id={name}
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
-        className="outline-1 outline-black/10 p-5 mb-3 hover:outline-1 hover:outline-pink-600 focus:outline-2 focus:outline-pink-600"
-        placeholder={`Enter ${text}`}
-      />
+      {type === "textarea" ? (
+        <textarea
+          name={name}
+          id={name}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          placeholder={`Enter ${text}`}
+          className="outline-1 outline-black/10 p-5 over:outline-1 hover:outline-pink-600 focus:outline-2 focus:outline-pink-600"
+        ></textarea>
+      ) : (
+        <input
+          type={type === "password" && !showPassword ? "password" : "text"}
+          name={name}
+          id={name}
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          className="outline-1 outline-black/10 p-5 over:outline-1 hover:outline-pink-600 focus:outline-2 focus:outline-pink-600"
+          placeholder={`Enter ${text}`}
+        />
+      )}
       {errors !== "s" && (
-        <ul className="list-disc">
+        <ul className="list-disc mt-3">
           {errors?.status === 422 &&
             errors.errors.map((error, index) => {
               if (error.path === name)

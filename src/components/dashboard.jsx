@@ -1,5 +1,6 @@
 import { Outlet, useOutletContext } from "react-router";
 import { useEffect, useState } from "react";
+import Navbar from "./navbar.jsx";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,8 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col items-center sm:block sm:p-5">
-      <Outlet context={{ isAuth, loading, userName }} />
+      <Navbar userName={userName} />
+      <Outlet context={{ isAuth, loading }} />
     </div>
   );
 }
