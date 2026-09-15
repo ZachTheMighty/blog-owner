@@ -1,13 +1,11 @@
-import { useOutletContext } from "react-router";
-import Link from "./link";
-import { useEffect } from "react";
-import { useState } from "react";
-import Navbar from "./navbar.jsx";
+import { Outlet, useOutletContext } from "react-router";
+import { useEffect, useState } from "react";
 
 export default function Dashboard() {
-  const { setIsAuth, isAuth } = useOutletContext();
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
+  const { isAuth, setIsAuth } = useOutletContext();
+
   useEffect(() => {
     fetch(
       "http://localhost:8080/tokens",
@@ -31,18 +29,9 @@ export default function Dashboard() {
       .finally(() => setLoading(false));
   });
 
-  if (loading) return <div>Loading...</div>;
-  if (!isAuth)
-    return (
-      <div className="min-h-screen flex justify-center items-center text-3xl font-bold">
-        <div>
-          You need to <Link to="/" text="login" /> to view the dashboard.
-        </div>
-      </div>
-    );
   return (
-    <div className="flex flex-col items-center sm:block sm:p-10">
-      <Navbar userName={userName} />
+    <div className="flex flex-col items-center sm:block sm:p-5">
+      <Outlet context={{ isAuth, loading, userName }} />
     </div>
   );
 }
