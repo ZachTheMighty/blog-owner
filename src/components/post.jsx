@@ -14,10 +14,14 @@ export default function Post({ post }) {
   return (
     <div
       onClick={handleClick}
-      className="bg-white rounded-md px-2 py-4 hover:bg-gray-100 active:bg-gray-200 shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)]"
+      className="bg-white rounded-md px-2 py-4 hover:bg-gray-100 active:bg-gray-200 shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)] h-60 flex flex-col justify-between"
     >
-      <div className="text-2xl font-bold sm:text-3xl mb-2">{post.title}</div>
-      <div>{post.body}</div>
+      <div>
+        <div className="text-2xl font-bold sm:text-3xl mb-2 line-clamp-2">
+          {post.title}
+        </div>
+        <div className="line-clamp-3">{post.body}</div>
+      </div>
       <div className="mt-8 flex justify-between">
         <div>{post.createdAt.split("T")[0]}</div>
         <div className="flex gap-4 text-gray-400">
