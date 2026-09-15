@@ -33,7 +33,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center sm:block sm:p-5">
       <Navbar userName={userName} />
-      <Outlet context={{ isAuth, loading }} />
+      <Outlet context={{ isAuth, loading, setLoading }} />
     </div>
   );
 }
