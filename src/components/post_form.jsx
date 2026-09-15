@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Input from "./input.jsx";
+import Link from "./link.jsx";
+
 export default function PostForm() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -48,6 +50,11 @@ export default function PostForm() {
           setValue={setBody}
           errors={errors}
         />
+        {!errors && (
+          <div>
+            Successfully created post! <Link text="Go home" to="/dashboard" />
+          </div>
+        )}
         <button className="bg-pink-700 min-w-full px-4 py-2 text-white font-medium hover:bg-pink-600 active:bg-pink-700">
           Create post
         </button>
