@@ -1,17 +1,22 @@
 import { MessageCircle, Eye } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
-export default function Post({ post }) {
+export default function Post({ post, full }) {
   const [views, setViews] = useState(post.views);
   const [published, setPublished] = useState(post.published);
+  const navigate = useNavigate();
 
   const handleViewPost = async () => {
+    if (full) return;
     await fetch(`http://localhost:8080/posts/${post.id}/views`, {
       method: "post",
     })
       .then((response) => response.json())
       .then((data) => setViews(data.views))
       .catch((error) => console.log(error));
+
+    navigate(`posts/${post.id}`);
   };
 
   const handlePublish = async (event) => {
@@ -29,16 +34,20 @@ export default function Post({ post }) {
   return (
     <div
       onClick={handleViewPost}
-      className="bg-white rounded-md p-4 hover:bg-gray-100 active:bg-gray-200 shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)] h-75 flex flex-col justify-between"
+      className={`bg-white rounded-md p-4 ${!full ? "hover:bg-gray-100 active:bg-gray-200" : ""} shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)]  ${!full ? "h-75" : ""} flex flex-col justify-between gap-8`}
     >
       <div>
-        <div className="text-2xl font-bold sm:text-3xl mb-2 line-clamp-2">
+        <div
+          className={`text-2xl font-bold sm:text-3xl mb-2 ${!full ? "line-clamp-1" : "break-words"}`}
+        >
           {post.title}
         </div>
-        <div className="line-clamp-3">{post.body}</div>
+        <div className={`${!full ? "line-clamp-3" : "break-all"}`}>
+          {post.body}
+        </div>
       </div>
       <div className="flex flex-col gap-4">
-        <div className="flex justify-between">
+        <div className="flex justify-between font-bold">
           <div>{post.createdAt.split("T")[0]}</div>
           <div className="flex gap-4 text-gray-400">
             <div className="flex gap-2">

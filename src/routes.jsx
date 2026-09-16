@@ -3,8 +3,9 @@ import Login from "./components/login.jsx";
 import Signup from "./components/sign_up.jsx";
 import Dashboard from "./components/dashboard.jsx";
 import Home from "./components/home.jsx";
-import NotFound from "./components/not_found.jsx";
 import PostForm from "./components/post_form.jsx";
+import FullPost from "./components/full_post.jsx";
+import NotFound from "./components/not_found.jsx";
 
 export default [
   {
@@ -33,6 +34,10 @@ export default [
               {
                 path: "new",
                 element: <PostForm />,
+              },
+              {
+                path: ":id",
+                element: <FullPost />,
               },
             ],
           },
