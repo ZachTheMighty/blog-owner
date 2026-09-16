@@ -32,7 +32,7 @@ export default function Home() {
       <div className="text-xl font-bold mt-8 sm:text-2xl lg:text-3xl">
         Your posts
       </div>
-      <Posts posts={posts} />
+      <Posts posts={posts} setPosts={setPosts} />
     </div>
   );
 }

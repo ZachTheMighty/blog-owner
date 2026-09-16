@@ -2,7 +2,7 @@ import { MessageCircle, Eye } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function Post({ post, full }) {
+export default function Post({ post, full, posts, setPosts }) {
   const [views, setViews] = useState(post.views);
   const [published, setPublished] = useState(post.published);
   const navigate = useNavigate();
@@ -31,10 +31,19 @@ export default function Post({ post, full }) {
       .catch((error) => console.log(error));
   };
 
+  const handleDelete = async (event) => {
+    event.stopPropagation();
+    await fetch(`http://localhost:8080/posts/${post.id}`, {
+      method: "delete",
+    }).then(() =>
+      setPosts(Object.values(posts).filter((item) => item.id !== post.id)),
+    );
+  };
+
   return (
     <div
       onClick={handleViewPost}
-      className={`bg-white rounded-md p-4 ${!full ? "hover:bg-gray-100 active:bg-gray-200" : ""} shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)]  ${!full ? "h-75" : ""} flex flex-col justify-between gap-8`}
+      className={`bg-white rounded-md p-4 ${!full ? "hover:bg-gray-100 active:bg-gray-200" : ""} shadow-[0px_0px_20px_1px_rgba(255,255,255,0.3)]  ${!full ? "h-85" : ""} flex flex-col justify-between gap-8`}
     >
       <div>
         <div
@@ -72,6 +81,14 @@ export default function Post({ post, full }) {
             className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 active:bg-pink-500"
           >
             {published ? "Unpublish" : "Publish"}
+          </button>
+        </div>
+        <div className="flex-1">
+          <button
+            onClick={(event) => handleDelete(event)}
+            className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 active:bg-pink-500 font-bold w-full"
+          >
+            Delete
           </button>
         </div>
       </div>
