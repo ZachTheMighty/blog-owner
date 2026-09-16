@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Posts from "./posts.jsx";
 
 export default function Home() {
-  const { isAuth, loading } = useOutletContext();
+  const { isAuth, loading, setPosts } = useOutletContext();
   const [postsLoading, setPostsLoading] = useState(true);
-  const [posts, setPosts] = useState(null);
   const [errors, setErrors] = useState(null);
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function Home() {
       <div className="text-xl font-bold mt-8 sm:text-2xl lg:text-3xl">
         Your posts
       </div>
-      <Posts posts={posts} setPosts={setPosts} />
+      <Posts />
     </div>
   );
 }

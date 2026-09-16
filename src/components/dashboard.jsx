@@ -5,6 +5,7 @@ import Navbar from "./navbar.jsx";
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [userName, setUserName] = useState("");
+  const [posts, setPosts] = useState(null);
   const { isAuth, setIsAuth } = useOutletContext();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col items-center sm:block sm:p-5">
       <Navbar userName={userName} />
-      <Outlet context={{ isAuth, loading, setLoading }} />
+      <Outlet context={{ isAuth, loading, setLoading, posts, setPosts }} />
     </div>
   );
 }

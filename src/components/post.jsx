@@ -1,11 +1,13 @@
 import { MessageCircle, Eye } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useOutletContext } from "react-router";
 
-export default function Post({ post, full, posts, setPosts }) {
+export default function Post({ post, full }) {
   const [views, setViews] = useState(post.views);
   const [published, setPublished] = useState(post.published);
   const navigate = useNavigate();
+  const { posts, setPosts } = useOutletContext();
 
   const handleViewPost = async () => {
     if (full) return;
@@ -35,9 +37,11 @@ export default function Post({ post, full, posts, setPosts }) {
     event.stopPropagation();
     await fetch(`http://localhost:8080/posts/${post.id}`, {
       method: "delete",
-    }).then(() =>
-      setPosts(Object.values(posts).filter((item) => item.id !== post.id)),
-    );
+    })
+      .then(() =>
+        setPosts(Object.values(posts).filter((item) => item.id !== post.id)),
+      )
+      .then(() => navigate("/dashboard"));
   };
 
   return (
