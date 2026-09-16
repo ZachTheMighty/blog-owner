@@ -23,7 +23,7 @@ export default function FullPost() {
   if (loading) return <div>Loading post...</div>;
   if (errors) return <div>Check console for errors</div>;
   return (
-    <div className="bg-pink-500 p-4 mt-8 w-full sm:w-auto lg:mx-100 rounded-md flex flex-col gap-8">
+    <div className="bg-pink-500 p-4 mt-8 w-full sm:w-auto lg:mx-100 rounded-md flex flex-col gap-16">
       <Post post={post} full={true} />
       <Comments comments={post.comments} />
     </div>
