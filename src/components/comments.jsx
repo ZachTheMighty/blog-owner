@@ -5,11 +5,15 @@ export default function Comments({ comments }) {
     <div className="bg-white rounded-md p-4">
       <div className="text-xl font-bold sm:text-2xl">Comments:</div>
       <ul className="flex flex-col gap-8 mt-2">
-        {comments.map((comment) => (
-          <li key={comment.id}>
-            <Comment comment={comment} />
-          </li>
-        ))}
+        {comments.length === 0 ? (
+          <div>This post has no comments yet.</div>
+        ) : (
+          comments.map((comment) => (
+            <li key={comment.id}>
+              <Comment comment={comment} />
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
