@@ -1,20 +1,10 @@
-import { useOutletContext } from "react-router";
 import Link from "./link";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Posts from "./posts.jsx";
+import { Context } from "../App.jsx";
 
 export default function Home() {
-  const { isAuth, loading, setPosts } = useOutletContext();
-  const [postsLoading, setPostsLoading] = useState(true);
-  const [errors, setErrors] = useState(null);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/posts")
-      .then((response) => response.json())
-      .then((data) => setPosts(data))
-      .catch((error) => setErrors(error))
-      .finally(() => setPostsLoading(false));
-  }, []);
+  const { isAuth, loading, postsLoading } = useContext(Context);
 
   if (loading || postsLoading) return <div>Loading...</div>;
   if (!isAuth)
@@ -25,7 +15,6 @@ export default function Home() {
         </div>
       </div>
     );
-  if (errors) return <div>{errors}</div>;
   return (
     <div className="min-w-full px-4 sm:min-w-auto sm:p-0">
       <div className="text-xl font-bold mt-8 sm:text-2xl lg:text-3xl">

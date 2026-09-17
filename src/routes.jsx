@@ -39,6 +39,10 @@ export default [
                 path: ":id",
                 element: <FullPost />,
               },
+              {
+                path: ":id/edit",
+                element: <PostForm />,
+              },
             ],
           },
         ],

@@ -1,17 +1,37 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Input from "./input.jsx";
 import Link from "./link.jsx";
+import { useParams } from "react-router";
+import { Context } from "../App.jsx";
 
 export default function PostForm() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [errors, setErrors] = useState("s");
 
+  const { id } = useParams();
+  const { posts, setPosts } = useContext(Context);
+  const post =
+    posts && id ? Object.values(posts).find((post) => post.id === +id) : null;
+
+  useEffect(() => {
+    if (post) {
+      setTitle(post.title);
+      setBody(post.body);
+    }
+  }, [post]);
+
+  if (!posts) return <div>Loading posts...</div>;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const method = id ? "put" : "post";
+    const url = id
+      ? `http://localhost:8080/posts/${id}`
+      : "http://localhost:8080/posts";
 
-    const response = await fetch("http://localhost:8080/posts", {
-      method: "post",
+    const response = await fetch(url, {
+      method,
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -23,12 +43,21 @@ export default function PostForm() {
     if (!response.ok)
       return setErrors({ errors: data.error, status: response.status });
     setErrors(null);
+
+    if (!id) {
+      const newPosts = Object.values({ ...posts, newPost: data.post });
+      newPosts.sort((postA, postB) => postB.id - postA.id);
+      return setPosts({ ...newPosts });
+    }
+
+    let key = Object.values(posts).findIndex((post) => post.id === +id);
+    setPosts({ ...posts, [key]: data.post });
   };
 
   return (
     <div className="flex flex-col items-center mt-24">
       <div className="text-xl font-bold text-center md:text-2xl lg:text-3xl">
-        Create new post
+        {id ? "Edit post" : "Create new post"}
       </div>
       <form
         onSubmit={(event) => handleSubmit(event)}
@@ -52,11 +81,12 @@ export default function PostForm() {
         />
         {!errors && (
           <div>
-            Successfully created post! <Link text="Go home" to="/dashboard" />
+            Successfully {id ? "edited" : "created"} post!{" "}
+            <Link text="Go home" to="/dashboard" />
           </div>
         )}
         <button className="bg-pink-700 min-w-full px-4 py-2 text-white font-medium hover:bg-pink-600 active:bg-pink-700">
-          Create post
+          {id ? "Edit" : "Create"} post
         </button>
       </form>
     </div>

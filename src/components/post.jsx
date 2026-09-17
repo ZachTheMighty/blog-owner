@@ -1,13 +1,13 @@
 import { MessageCircle, Eye } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router";
-import { useOutletContext } from "react-router";
+import { Context } from "../App";
 
 export default function Post({ post, full }) {
   const [views, setViews] = useState(post.views);
   const [published, setPublished] = useState(post.published);
   const navigate = useNavigate();
-  const { posts, setPosts } = useOutletContext();
+  const { posts, setPosts } = useContext(Context);
 
   const handleViewPost = async () => {
     if (full) return;
@@ -42,6 +42,11 @@ export default function Post({ post, full }) {
         setPosts(Object.values(posts).filter((item) => item.id !== post.id)),
       )
       .then(() => navigate("/dashboard"));
+  };
+
+  const handleEdit = async (event) => {
+    event.stopPropagation();
+    navigate(`edit`);
   };
 
   return (
@@ -87,13 +92,21 @@ export default function Post({ post, full }) {
             {published ? "Unpublish" : "Publish"}
           </button>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col gap-4">
           <button
             onClick={(event) => handleDelete(event)}
             className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 active:bg-pink-500 font-bold w-full"
           >
             Delete
           </button>
+          {full && (
+            <button
+              onClick={(event) => handleEdit(event)}
+              className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 active:bg-pink-500 font-bold w-full"
+            >
+              Edit
+            </button>
+          )}
         </div>
       </div>
     </div>
