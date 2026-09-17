@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import Post from "./post.jsx";
-import { useOutletContext } from "react-router";
 import { Context } from "../App.jsx";
 
 export default function Posts() {
