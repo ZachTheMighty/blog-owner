@@ -27,11 +27,14 @@ export default function Post({ post, full }) {
 
   const handlePublish = async (event) => {
     event.stopPropagation();
-    await fetch(`https://blog-api-ljzu.onrender.com/${post.id}/published`, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ published: post.published }),
-    })
+    await fetch(
+      `https://blog-api-ljzu.onrender.com/posts/${post.id}/published`,
+      {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ published: post.published }),
+      },
+    )
       .then((response) => response.json())
       .then((data) =>
         setPosts(
