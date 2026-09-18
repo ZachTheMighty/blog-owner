@@ -45,13 +45,13 @@ export default function PostForm() {
     setErrors(null);
 
     if (!id) {
-      const newPosts = Object.values({ ...posts, newPost: data.post });
+      const newPosts = [...posts, data.post];
       newPosts.sort((postA, postB) => postB.id - postA.id);
-      return setPosts({ ...newPosts });
+      return setPosts(newPosts);
     }
 
-    let key = Object.values(posts).findIndex((post) => post.id === +id);
-    setPosts({ ...posts, [key]: data.post });
+    let key = posts.findIndex((post) => post.id === +id);
+    setPosts(posts.map((post, index) => (index === key ? data.post : post)));
   };
 
   return (
