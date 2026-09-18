@@ -9,7 +9,7 @@ export default function Post({ post, full }) {
 
   const handleViewPost = async () => {
     if (full) return;
-    await fetch(`https://blog-api-ljzu.onrender.com/${post.id}/views`, {
+    await fetch(`https://blog-api-ljzu.onrender.com/posts/${post.id}/views`, {
       method: "post",
     })
       .then((response) => response.json())
@@ -48,7 +48,7 @@ export default function Post({ post, full }) {
 
   const handleDelete = async (event) => {
     event.stopPropagation();
-    await fetch(`https://blog-api-ljzu.onrender.com/${post.id}`, {
+    await fetch(`https://blog-api-ljzu.onrender.com/posts/${post.id}`, {
       method: "delete",
     })
       .then(() => setPosts(posts.filter((item) => item.id !== post.id)))

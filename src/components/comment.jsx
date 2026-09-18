@@ -8,7 +8,7 @@ export default function Comment({ comment }) {
 
   const handleDelete = async () => {
     const response = await fetch(
-      `https://blog-api-ljzu.onrender.com/${id}/comments/${comment.id}`,
+      `https://blog-api-ljzu.onrender.com/posts/${id}/comments/${comment.id}`,
       {
         method: "delete",
       },
