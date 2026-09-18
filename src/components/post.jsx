@@ -4,7 +4,6 @@ import { useNavigate } from "react-router";
 import { Context } from "../App";
 
 export default function Post({ post, full }) {
-  const [views, setViews] = useState(post.views);
   const [published, setPublished] = useState(post.published);
   const navigate = useNavigate();
   const { posts, setPosts } = useContext(Context);
@@ -15,7 +14,13 @@ export default function Post({ post, full }) {
       method: "post",
     })
       .then((response) => response.json())
-      .then((data) => setViews(data.views))
+      .then((data) =>
+        setPosts(
+          posts.map((p) =>
+            p.id === post.id ? { ...p, views: data.views } : p,
+          ),
+        ),
+      )
       .catch((error) => console.log(error));
 
     navigate(`posts/${post.id}`);
@@ -71,7 +76,7 @@ export default function Post({ post, full }) {
               <MessageCircle />
             </div>
             <div className="flex gap-2">
-              <div>{views}</div>
+              <div>{post.views}</div>
               <Eye />
             </div>
           </div>
