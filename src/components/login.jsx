@@ -17,6 +17,7 @@ export default function Login() {
       body: JSON.stringify({
         email,
         password,
+        isAuthor: true,
       }),
     });
 
