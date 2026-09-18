@@ -4,7 +4,7 @@ import Posts from "./posts.jsx";
 import { Context } from "../App.jsx";
 
 export default function Home() {
-  const { isAuth, loading, postsLoading } = useContext(Context);
+  const { isAuth, loading, postsLoading, posts } = useContext(Context);
 
   if (loading || postsLoading) return <div>Loading...</div>;
   if (!isAuth)
@@ -17,10 +17,18 @@ export default function Home() {
     );
   return (
     <div className="min-w-full px-4 sm:min-w-auto sm:p-0">
-      <div className="text-xl font-bold mt-8 sm:text-2xl lg:text-3xl">
-        Your posts
-      </div>
-      <Posts />
+      {posts.length === 0 ? (
+        <div>
+          You have no posts, <Link text="create some!" to="posts/new" />
+        </div>
+      ) : (
+        <>
+          <div className="text-xl font-bold mt-8 sm:text-2xl lg:text-3xl">
+            Your Feed
+          </div>
+          <Posts />
+        </>
+      )}
     </div>
   );
 }
