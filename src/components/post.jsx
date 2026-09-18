@@ -38,9 +38,7 @@ export default function Post({ post, full }) {
     await fetch(`http://localhost:8080/posts/${post.id}`, {
       method: "delete",
     })
-      .then(() =>
-        setPosts(Object.values(posts).filter((item) => item.id !== post.id)),
-      )
+      .then(() => setPosts(posts.filter((item) => item.id !== post.id)))
       .then(() => navigate("/dashboard"));
   };
 
