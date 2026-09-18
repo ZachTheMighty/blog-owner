@@ -27,8 +27,8 @@ export default function PostForm() {
     event.preventDefault();
     const method = id ? "put" : "post";
     const url = id
-      ? `http://localhost:8080/posts/${id}`
-      : "http://localhost:8080/posts";
+      ? `https://blog-api-ljzu.onrender.com/posts/${id}`
+      : "https://blog-api-ljzu.onrender.com/posts";
 
     const response = await fetch(url, {
       method,

@@ -9,7 +9,7 @@ export default function Post({ post, full }) {
 
   const handleViewPost = async () => {
     if (full) return;
-    await fetch(`http://localhost:8080/posts/${post.id}/views`, {
+    await fetch(`https://blog-api-ljzu.onrender.com/${post.id}/views`, {
       method: "post",
     })
       .then((response) => response.json())
@@ -27,7 +27,7 @@ export default function Post({ post, full }) {
 
   const handlePublish = async (event) => {
     event.stopPropagation();
-    await fetch(`http://localhost:8080/posts/${post.id}/published`, {
+    await fetch(`https://blog-api-ljzu.onrender.com/${post.id}/published`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ published: post.published }),
@@ -45,7 +45,7 @@ export default function Post({ post, full }) {
 
   const handleDelete = async (event) => {
     event.stopPropagation();
-    await fetch(`http://localhost:8080/posts/${post.id}`, {
+    await fetch(`https://blog-api-ljzu.onrender.com/${post.id}`, {
       method: "delete",
     })
       .then(() => setPosts(posts.filter((item) => item.id !== post.id)))
