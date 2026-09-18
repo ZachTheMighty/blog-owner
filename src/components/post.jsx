@@ -1,10 +1,9 @@
 import { MessageCircle, Eye } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router";
 import { Context } from "../App";
 
 export default function Post({ post, full }) {
-  const [published, setPublished] = useState(post.published);
   const navigate = useNavigate();
   const { posts, setPosts } = useContext(Context);
 
@@ -31,10 +30,16 @@ export default function Post({ post, full }) {
     await fetch(`http://localhost:8080/posts/${post.id}/published`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ published }),
+      body: JSON.stringify({ published: post.published }),
     })
       .then((response) => response.json())
-      .then((data) => setPublished(data.published))
+      .then((data) =>
+        setPosts(
+          posts.map((p) =>
+            p.id === post.id ? { ...p, published: data.published } : p,
+          ),
+        ),
+      )
       .catch((error) => console.log(error));
   };
 
@@ -84,15 +89,17 @@ export default function Post({ post, full }) {
         <div className="flex justify-between font-bold border-t border-black/10 pt-4">
           <div className="flex gap-1 items-center">
             Status:{" "}
-            <div className={`${published ? "text-green-500" : "text-red-500"}`}>
-              {published ? "Published" : "Unpublished"}
+            <div
+              className={`${post.published ? "text-green-500" : "text-red-500"}`}
+            >
+              {post.published ? "Published" : "Unpublished"}
             </div>
           </div>
           <button
             onClick={(event) => handlePublish(event)}
             className="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600 active:bg-pink-500"
           >
-            {published ? "Unpublish" : "Publish"}
+            {post.published ? "Unpublish" : "Publish"}
           </button>
         </div>
         <div className="flex-1 flex flex-col gap-4">
