@@ -8,8 +8,7 @@ export default function FullPost() {
   const { id } = useParams();
   const { posts } = useContext(Context);
 
-  const post =
-    posts && id ? Object.values(posts).find((post) => post.id === +id) : null;
+  const post = posts && id ? posts.find((post) => post.id === +id) : null;
 
   if (!posts) return <div>Loading posts...</div>;
 
